@@ -1,0 +1,261 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="content-type"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<script src="http://code.jquery.com/jquery-1.4.3.min.js"></script>
+	
+<title>HTML5 Drag and drop demonstration</title>
+ <link href="style.css" rel="stylesheet">
+
+<script type="text/javascript">
+function dragStart(ev) {
+    ev.dataTransfer.effectAllowed='move';
+    //ev.dataTransfer.dropEffect='move';
+    ev.dataTransfer.setData("Text", ev.target.getAttribute('id'));
+    ev.dataTransfer.setDragImage(ev.target,0,0);
+    return true;
+}
+
+function dragEnd(ev) {
+    ev.dataTransfer.clearData("Text");
+    return true
+}
+
+
+function dragEnter(ev) {
+    var idelt = ev.dataTransfer.getData("Text");
+    return true;
+}
+
+function dragOver(ev) {
+    var idelt = ev.dataTransfer.getData("Text");
+    var id = ev.target.getAttribute('id');
+    
+    return false;
+    
+    if( (id =='boxB' || id =='boxA') && (idelt == 'drag' || idelt=='drag2'))
+        return false;
+    else if( id =='boxC' && idelt == 'drag3')
+        return false;
+    else
+        return true;
+}
+var counter1 = {
+val : 0,
+name : "counter1",
+inc : function() { this.val++; update(this); },
+dec : function() { this.val--; update(this); }
+}
+	 
+function update(counter) {
+document.getElementById(counter.name).innerHTML=counter.val;
+}
+function dragDrop(ev) {
+  console.log('drop');
+    var idelt = ev.dataTransfer.getData("Text");
+    ev.target.appendChild(document.getElementById(idelt));
+    ev.stopPropagation();
+
+    return false; // return false so the event will not be propagated to the browser
+}
+
+</script>
+</head>
+<body>
+
+<div class="wrap">
+<header class="outli">
+<div class="preheader">  <nav>   
+               <ul>
+            <li>
+               <a href="#">
+                  <img src="img/icons/facebook.png" alt="Facebook" />
+               </a>
+            </li>
+            <li>
+               <a href="#">
+                  <img src="img/icons/dribble.png" alt="Dribble" />
+               </a>
+            </li>
+            <li>
+               <a href="#">
+                  <img src="img/icons/twitter.png" alt="Twitter" />
+               </a>
+            </li>
+            <li>
+               <a href="#">
+                  <img src="img/icons/flickr.png" alt="Flickr" />
+               </a>
+            </li>
+         </ul></nav>
+      </div>
+      <h1> </h1>
+ 
+      <nav><ul>
+            <li>
+               <a href="#" class="selected">HOME</a>
+            </li>
+            <li>
+               <a href="#boxA">o nama</a>
+            </li>
+            <li>
+               <a href="#boxB">proizvodi</a>
+            </li>
+            <li>
+               <a href="#boxC">prorject</a>
+            </li>
+            <li>
+               <a href="#boxD">kontakt</a>
+            </li>
+         </ul>
+		   </nav>
+
+		 </header>
+
+<div class="containerleft">
+    <h1>KATEGORIJE</h1>
+	<table>
+ <thead>
+  <tr>
+   <th><th><th><th>
+ <tbody>
+  
+<template id="row">
+   <tr>  <a href="#" class="selected"><td></td></a>
+     <a href="#boxA">kategorijatd<td></a>
+  </template>   
+  
+</table>
+<script>
+ // Data is hard-coded here, but could come from the server
+ var data = [
+   { name: 'kategorijajedan', vrsta: 'SPORTSKA obuca', marka: 'Adidas', sex: 'Female', cena: 2000 },
+ ];
+</script>
+
+<script>
+ var template = document.querySelector('#row');
+ for (var i = 0; i < data.length; i += 1) {
+   var cat = data[i];
+   var clone = template.content.cloneNode(true);
+   var cells = clone.querySelectorAll('td');
+   cells[0].textContent = cat.name;
+   template.parentNode.appendChild(clone);
+ }
+</script>
+	
+	</div>
+	  <h1> </h1>  <h1> </h1>
+    <template id="kategorija"> <h2></h2></template>
+	<script>
+ var template = document.querySelector('#kategorija');
+ for (var i = 0; i < data.length; i += 1) {
+   var cat = data[i];
+   var clone = template.content.cloneNode(true);
+   var cells = clone.querySelectorAll('h2');
+   cells[0].textContent = cat.vrsta;
+   template.parentNode.appendChild(clone);
+ }
+</script>
+<div class="container">
+    <div id="boxA"
+        ondragenter="return dragEnter(event)"
+        ondrop="counter1.inc()"
+        ondragover="return dragOver(event)">
+<img src="img/pat.jpg" alt="tico" /><div id="drag" draggable="true"
+            ondragstart="return dragStart(event)"
+            ondragend="return dragEnd(event)" onclick="counter1.inc()">
+			</div><h3 id="counter1">0</h3>Patike
+			  <template id="marka"> <p></p></template>
+				<script>
+ var template = document.querySelector('#marka');
+ for (var i = 0; i < data.length; i += 1) {
+   var cat = data[i];
+   var clone = template.content.cloneNode(true);
+   var cells = clone.querySelectorAll('p');
+   cells[0].textContent = cat.marka;
+   template.parentNode.appendChild(clone);
+ }
+</script>
+	</div>
+    
+    <div id="boxB"
+        ondragenter="return dragEnter(event)"
+        ondrop="return dragDrop(event)"
+        ondragover="return dragOver(event)">
+	<img src="img/pat.jpg" alt="tico" /><div id="drag" draggable="true"
+            ondragstart="return dragStart(event)"
+            ondragend="return dragEnd(event)" onclick="counter1.inc()">
+			</div><h3 id="counter2">0</h3>
+    </div>
+	
+    <div id="boxC"
+        ondragenter="return dragEnter(event)"
+        ondrop="return dragDrop(event)"
+        ondragover="return dragOver(event)">
+		<img src="img/pat.jpg" alt="tico" /><div id="drag" draggable="true"
+            ondragstart="return dragStart(event)"
+            ondragend="return dragEnd(event)" onclick="counter1.inc()">
+			</div><h3 id="counter3">0</h3>
+    </div>
+
+	<div id="boxD"
+        ondragenter="return dragEnter(event)"
+        ondrop="return dragDrop(event)"
+        ondragover="return dragOver(event)">
+	<img src="img/pat.jpg" alt="tico" /><div id="drag" draggable="true"
+            ondragstart="return dragStart(event)"
+            ondragend="return dragEnd(event)" onclick="counter1.inc()">
+			</div><h3 id="counter4">0</h3>
+    </div>
+	
+   
+    <div id="boxA"
+        ondragenter="return dragEnter(event)"
+        ondrop="counter1.inc()"
+        ondragover="return dragOver(event)">
+<img src="img/pat.jpg" alt="tico" /><div id="drag" draggable="true"
+            ondragstart="return dragStart(event)"
+            ondragend="return dragEnd(event)" onclick="counter1.inc()">
+			</div><h3 id="counter1">0</h3>
+	</div>
+	<td></td>
+    
+    <div id="boxB"
+        ondragenter="return dragEnter(event)"
+        ondrop="return dragDrop(event)"
+        ondragover="return dragOver(event)">
+	<img src="img/pat.jpg" alt="tico" /><div id="drag" draggable="true"
+            ondragstart="return dragStart(event)"
+            ondragend="return dragEnd(event)" onclick="counter1.inc()">
+			</div><h3 id="counter2">0</h3>
+    </div>
+	
+    <div id="boxC"
+        ondragenter="return dragEnter(event)"
+        ondrop="return dragDrop(event)"
+        ondragover="return dragOver(event)">
+		<img src="img/pat.jpg" alt="tico" /><div id="drag" draggable="true"
+            ondragstart="return dragStart(event)"
+            ondragend="return dragEnd(event)" onclick="counter1.inc()">
+			</div><h3 id="counter3">0</h3>
+    </div>
+
+	<div id="boxD"
+        ondragenter="return dragEnter(event)"
+        ondrop="return dragDrop(event)"
+        ondragover="return dragOver(event)">
+	<img src="img/pat.jpg" alt="tico" /><div id="drag" draggable="true"
+            ondragstart="return dragStart(event)"
+            ondragend="return dragEnd(event)" onclick="counter1.inc()">
+			</div><h3 id="counter4">0</h3>
+    </div>
+  </div>  
+    </div>
+
+
+
+</body>
+</html>
