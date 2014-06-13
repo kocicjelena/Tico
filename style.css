@@ -101,7 +101,7 @@ img {
 	display: block;
 }
 #boxA, #boxB, #boxC, #boxD{ 
-  float:right; width:15.3em; height:19.3em; padding:0.5em; margin:0.5em;
+  float:right; width:13.3em; height:19.3em; padding:0.5em; margin:0.5em;
 }
 h3 {
 		float: right; width:3em; height:3em; padding:0.5em; margin:0.5em;
